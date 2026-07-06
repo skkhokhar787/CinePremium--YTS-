@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html class="dark" lang="en">
+ 
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CineStream | Movie Details</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            background-color: #00161f;
+            color: #bde9ff;
+            overflow-x: hidden;
+        }
+ 
+        .glass-panel {
+            background: rgba(33, 158, 188, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(33, 158, 188, 0.2);
+        }
+ 
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+ 
+<body class="font-body-md text-body-md">
+    <header
+        class="sticky top-0 z-50 flex w-full items-center justify-between border-b border-secondary/30 bg-surface-glass px-margin-mobile py-4 shadow-lg shadow-black/50 backdrop-blur-md md:px-margin-desktop">
+        <a href="index.html"
+                class="font-display-xl ml-9 text-3xl text-display-lg font-extrabold text-secondary tracking-tighter hover:text-secondary transition-colors">CineStream</a>
+        <a href="index.html"
+            class="rounded-lg border mr-9 border-secondary/30 px-4 py-2 text-sm font-semibold text-secondary transition hover:bg-secondary/10">Back
+            to Browse</a>
+    </header>
+ 
+    <main class="min-h-screen px-margin-mobile py-16 md:px-margin-desktop md:py-24">
+        <div id="movie-detail" class="mx-auto max-w-6xl">
+            <div
+                class="flex min-h-[50vh] flex-col items-center justify-center gap-3 rounded-2xl border border-secondary/20 bg-surface-container p-8 text-on-surface-variant">
+                <div class="w-12 h-12 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <p class="text-sm">Loading movie details...</p>
+            </div>
+        </div>
+        <div id="movie-suggestions" class="mx-auto mt-10 max-w-6xl">
+            <div class="flex flex-col items-center justify-center gap-3 p-8 text-on-surface-variant">
+                <div class="w-8 h-8 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <p class="text-sm">Loading suggestions...</p>
+            </div>
+        </div>
+    </main>
+    <footer
+        class="bg-surface-container-lowest border-t border-white/5 pt-xl pb-32 md:pb-xl px-margin-mobile md:px-margin-desktop">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-xl mb-xl">
+            <div class="col-span-1 md:col-span-2">
+                <span
+                    class="font-display-lg text-display-lg-mobile md:text-headline-md font-extrabold text-secondary tracking-tighter mb-4 block">CineStream</span>
+                <p class="text-on-surface-variant max-w-sm">Experience the ultimate cinematic universe in the palm of
+                    your hand. Crystal clear streaming, thousands of titles, and a community of movie lovers.</p>
+            </div>
+            <div>
+                <h4 class="font-button-text text-white mb-6">Quick Links</h4>
+                <ul class="space-y-3 text-on-surface-variant text-sm">
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Movies</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">TV Series</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Top IMDb</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">New Releases</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-button-text text-white mb-6">Support</h4>
+                <ul class="space-y-3 text-on-surface-variant text-sm">
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+ 
+</html>
+
+
+
+
+

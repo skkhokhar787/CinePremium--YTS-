@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CineStream | Immersive Cinema Experience</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(33, 158, 188, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(33, 158, 188, 0.2);
+        }
+
+        .glow-border:focus-within {
+            border-color: #219EBC;
+            box-shadow: 0 0 15px rgba(33, 158, 188, 0.4);
+        }
+
+        .movie-card-hover .overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card-hover:hover .overlay {
+            opacity: 1;
+        }
+
+        body {
+            background-color: #00161f;
+            color: #bde9ff;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #00161f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #023047;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #219EBC;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#3d2900",
+                        "surface-dim": "#00161f",
+                        "primary-fixed-dim": "#a6cbe8",
+                        "bg-deep": "#011B29",
+                        "on-tertiary-fixed-variant": "#5e4100",
+                        "on-primary": "#07344b",
+                        "on-tertiary-fixed": "#271900",
+                        "surface-container": "#00232f",
+                        "on-background": "#bde9ff",
+                        "secondary-fixed": "#b2ebff",
+                        "surface-container-high": "#002e3d",
+                        "secondary-container": "#209dbb",
+                        "primary": "#a6cbe8",
+                        "on-secondary-container": "#002e39",
+                        "tertiary-fixed-dim": "#ffba27",
+                        "inverse-primary": "#3e627b",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c2c7cd",
+                        "on-primary-container": "#7498b4",
+                        "surface-bright": "#003e52",
+                        "border-glow": "rgba(33, 158, 188, 0.5)",
+                        "on-primary-fixed": "#001e2f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#003642",
+                        "inverse-surface": "#bde9ff",
+                        "surface-tint": "#a6cbe8",
+                        "rating-orange": "#FB8500",
+                        "secondary": "#69d4f4",
+                        "background": "#00161f",
+                        "on-secondary-fixed": "#001f27",
+                        "tertiary": "#ffba27",
+                        "error": "#ffb4ab",
+                        "on-surface": "#bde9ff",
+                        "error-container": "#93000a",
+                        "outline": "#8c9197",
+                        "surface-glass": "rgba(33, 158, 188, 0.1)",
+                        "tertiary-fixed": "#ffdea9",
+                        "outline-variant": "#42474d",
+                        "surface-container-lowest": "#001018",
+                        "surface-container-low": "#001f2a",
+                        "on-secondary-fixed-variant": "#004e5f",
+                        "on-tertiary": "#422c00",
+                        "surface": "#00161f",
+                        "surface-variant": "#003a4c",
+                        "on-primary-fixed-variant": "#254a63",
+                        "inverse-on-surface": "#003546",
+                        "primary-container": "#023047",
+                        "secondary-fixed-dim": "#69d4f4",
+                        "primary-fixed": "#c8e6ff",
+                        "surface-container-highest": "#003a4c",
+                        "on-tertiary-container": "#c18a00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "xl": "48px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-desktop": "80px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "button-text": ["Manrope"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Manrope"],
+                        "label-caps": ["Manrope"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "button-text": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-body-md text-on-surface selection:bg-secondary/30">
+    <!-- TopNavBar -->
+    <nav
+        class="bg-surface-glass backdrop-blur-md text-secondary font-button-text text-button-text docked full-width top-0 sticky border-b border-secondary/30 shadow-lg shadow-black/50 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 z-50">
+        <div id="logo" class="flex items-center gap-10">
+            <a href="index.html"
+                class="font-display-lg text-display-lg font-extrabold text-secondary tracking-tighter hover:text-secondary transition-colors">CineStream</a>
+            <div class="hidden md:flex gap-8">
+                <a class="text-secondary border-b-2 border-secondary pb-1" href="#">Home</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Trending</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Browse</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <div
+                class="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-1.5 focus-within:border-secondary transition-all">
+                <span id="searchSmallIcon" class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+                <span id="searchSmallSpinner" class="hidden w-4 h-4 rounded-full border-2 border-secondary/30 border-t-secondary animate-spin"></span>
+                <input id="searchInputSmall"
+                    class="bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder:text-on-surface-variant w-48"
+                    placeholder="Search movies..." type="text">
+            </div>
+            <button
+                class="bg-tertiary text-primary-container px-6 py-2 rounded-lg font-button-text text-button-text hover:scale-105 transition-transform active:scale-95">Login</button>
+        </div>
+    </nav>
+
+    <!-- Search & Filter Section -->
+    <section class="px-margin-mobile md:px-margin-desktop relative z-30 pt-xl">
+        <div class="glass-card p-8 rounded-xl shadow-2xl border border-secondary/20">
+            <!-- Large Search -->
+            <div class="relative mb-8 glow-border group">
+                <span id="searchLargeIcon"
+                    class="absolute left-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-2xl">search</span>
+                <span id="searchLargeSpinner"
+                    class="hidden absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></span>
+                <input id="searchInputLarge"
+                    class="w-full bg-surface-container-lowest/50 border-2 border-secondary/20 rounded-xl py-5 pl-16 pr-6 text-xl focus:border-secondary outline-none transition-all placeholder:text-on-surface-variant/50"
+                    placeholder="Search for movies, series, or directors..." type="text">
+            </div>
+            <!-- Filter Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <!-- <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Quality</label>
+                    <select
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option>All Qualities</option>
+                        <option>4K Ultra HD</option>
+                        <option>1080p Bluray</option>
+                        <option>720p HD</option>
+                    </select>
+                </div> -->
+                <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Genre</label>
+                    <select id="genreSelect"
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option value="All Genres">All Genres</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Rating</label>
+                    <select id="ratingSelect"
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option value="0">Any Rating</option>
+                        <option value="9">9+ Superb</option>
+                        <option value="8">8+ Excellent</option>
+                        <option value="7">7+ Good</option>
+                    </select>
+                </div>
+                <!-- <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Sort</label>
+                    <select
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option>Latest Release</option>
+                        <option>Popularity</option>
+                        <option>Download Count</option>
+                        <option>Year</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Order</label>
+                    <select
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option>Descending</option>
+                        <option>Ascending</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Limit</label>
+                    <select
+                        class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
+                        <option>20 Results</option>
+                        <option>50 Results</option>
+                        <option>100 Results</option>
+                    </select>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    <!-- Movie Grid Section -->
+    <main class="px-margin-mobile md:px-margin-desktop py-xl">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="font-headline-md text-headline-md text-white">Latest Cinema Releases</h2>
+
+        </div>
+        <div class="relative min-h-[200px]">
+            <div id="movie_card" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-lg"></div>
+            <div id="gridLoader"
+                class="hidden absolute inset-0 z-10 flex-col items-center justify-center gap-3 bg-surface-dim/70 backdrop-blur-sm rounded-xl">
+                <div class="w-12 h-12 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <p class="text-on-surface-variant text-sm">Loading movies...</p>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="mt-xl flex justify-center gap-4">
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">1</button>
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-lg bg-secondary text-on-secondary-container font-bold">2</button>
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">3</button>
+            <span class="flex items-center text-on-surface-variant px-2">...</span>
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">12</button>
+        </div>
+        <div class="flex gap-2 justify-center mt-5">
+            <button id="prevBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+                <span class="material-symbols-outlined text-secondary">chevron_left</span>
+            </button>
+            <button id="nextBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+                <span class="material-symbols-outlined text-secondary">chevron_right</span>
+            </button>
+        </div>
+    </main>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+        class="bg-surface-glass backdrop-blur-lg text-secondary font-label-caps text-label-caps fixed bottom-0 w-full z-50 rounded-t-xl border-t border-secondary/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] md:hidden flex justify-around items-center px-4 py-3">
+        <a class="flex flex-col items-center justify-center text-secondary drop-shadow-[0_0_8px_rgba(33,158,188,0.8)]"
+            href="#">
+            <span class="material-symbols-outlined">home</span>
+            <span class="">Home</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary/80" href="#">
+            <span class="material-symbols-outlined">trending_up</span>
+            <span class="">Trending</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary/80" href="#">
+            <span class="material-symbols-outlined">grid_view</span>
+            <span class="">Browse</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary/80" href="#">
+            <span class="material-symbols-outlined">search</span>
+            <span class="">Search</span>
+        </a>
+    </nav>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-lowest border-t border-white/5 pt-xl pb-32 md:pb-xl px-margin-mobile md:px-margin-desktop">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-xl mb-xl">
+            <div class="col-span-1 md:col-span-2">
+                <span
+                    class="font-display-lg text-display-lg-mobile md:text-headline-md font-extrabold text-secondary tracking-tighter mb-4 block">CineStream</span>
+                <p class="text-on-surface-variant max-w-sm">Experience the ultimate cinematic universe in the palm of
+                    your hand. Crystal clear streaming, thousands of titles, and a community of movie lovers.</p>
+            </div>
+            <div>
+                <h4 class="font-button-text text-white mb-6">Quick Links</h4>
+                <ul class="space-y-3 text-on-surface-variant text-sm">
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Movies</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">TV Series</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Top IMDb</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">New Releases</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-button-text text-white mb-6">Support</h4>
+                <ul class="space-y-3 text-on-surface-variant text-sm">
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+                    <li class=""><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="app.js"></script>
+</html>
