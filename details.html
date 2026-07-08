@@ -45,13 +45,37 @@
         <div id="movie-detail" class="mx-auto max-w-6xl">
             <div
                 class="flex min-h-[50vh] flex-col items-center justify-center gap-3 rounded-2xl border border-secondary/20 bg-surface-container p-8 text-on-surface-variant">
-                <div class="w-12 h-12 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <div class="w-24 h-14 text-secondary">
+                    <svg viewBox="10 40 180 120" class="w-full h-full">
+                        <circle fill="currentColor" r="15" cx="40" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="100" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="160" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                        </circle>
+                    </svg>
+                </div>
                 <p class="text-sm">Loading movie details...</p>
             </div>
         </div>
         <div id="movie-suggestions" class="mx-auto mt-10 max-w-6xl">
             <div class="flex flex-col items-center justify-center gap-3 p-8 text-on-surface-variant">
-                <div class="w-8 h-8 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <div class="w-16 h-10 text-secondary">
+                    <svg viewBox="10 40 180 120" class="w-full h-full">
+                        <circle fill="currentColor" r="15" cx="40" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="100" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="160" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                        </circle>
+                    </svg>
+                </div>
                 <p class="text-sm">Loading suggestions...</p>
             </div>
         </div>
@@ -87,8 +111,3 @@
 </body>
  
 </html>
-
-
-
-
-

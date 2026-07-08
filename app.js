@@ -1,12 +1,23 @@
 const card = document.getElementById("movie_card");
 const genreSelect = document.getElementById("genreSelect");
 const ratingSelect = document.getElementById("ratingSelect");
+const qualitySelect = document.getElementById("qualitySelect");
+const sortSelect = document.getElementById("sortSelect");
+const orderSelect = document.getElementById("orderSelect");
+const limitSelect = document.getElementById("limitSelect");
 
 const gridLoader = document.getElementById("gridLoader");
 const searchSmallIcon = document.getElementById("searchSmallIcon");
 const searchSmallSpinner = document.getElementById("searchSmallSpinner");
 const searchLargeIcon = document.getElementById("searchLargeIcon");
 const searchLargeSpinner = document.getElementById("searchLargeSpinner");
+const searchBtnSmall = document.getElementById("searchBtnSmall");
+const searchBtnLarge = document.getElementById("searchBtnLarge");
+
+const paginationButtons = document.getElementById("paginationButtons");
+const paginationSpinner = document.getElementById("paginationSpinner");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 const API_URL = "https://movies-api.accel.li/api/v2/list_movies.json";
 const DETAIL_API_URL = "https://movies-api.accel.li/api/v2/movie_details.json";
@@ -17,10 +28,14 @@ let allMovies = [];
 
 let currentPage = 1;
 let totalPages = 1;
-let limit = 20;
+let currentLimit = 20;
 let currentGenre = "All Genres";
 let currentRating = 0;
 let currentSearch = "";
+let currentQuality = "";
+let currentSortBy = "date_added";
+let currentOrderBy = "desc";
+let isFetching = false;
 
 // ================= LOADERS =================
 function showGridLoader() {
@@ -48,24 +63,52 @@ function setSearchLoading(isLoading) {
   });
 }
 
+function setPaginationLoading(isLoading) {
+  if (paginationSpinner) {
+    paginationSpinner.classList.toggle("hidden", !isLoading);
+  }
+  if (paginationButtons) {
+    paginationButtons.classList.toggle("opacity-40", isLoading);
+    paginationButtons.classList.toggle("pointer-events-none", isLoading);
+  }
+  if (prevBtn) prevBtn.disabled = isLoading || currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = isLoading || currentPage >= totalPages;
+}
+
 // ================= FETCH MOVIES =================
-async function getMovies(page = 1, genre = "All Genres", rating = 0, searchText = "") {
+async function getMovies() {
+  if (isFetching) return;
+  isFetching = true;
+
   showGridLoader();
-  if (searchText) setSearchLoading(true);
+  setPaginationLoading(true);
+  if (currentSearch) setSearchLoading(true);
 
   try {
-    let url = `${API_URL}?page=${page}&limit=${limit}`;
+    let url = `${API_URL}?page=${currentPage}&limit=${currentLimit}`;
 
-    if (genre !== "All Genres") {
-      url += `&genre=${encodeURIComponent(genre)}`;
+    if (currentGenre !== "All Genres") {
+      url += `&genre=${encodeURIComponent(currentGenre)}`;
     }
 
-    if (rating > 0) {
-      url += `&minimum_rating=${rating}`;
+    if (currentRating > 0) {
+      url += `&minimum_rating=${currentRating}`;
     }
 
-    if (searchText) {
-      url += `&query_term=${encodeURIComponent(searchText)}`;
+    if (currentSearch) {
+      url += `&query_term=${encodeURIComponent(currentSearch)}`;
+    }
+
+    if (currentQuality) {
+      url += `&quality=${encodeURIComponent(currentQuality)}`;
+    }
+
+    if (currentSortBy) {
+      url += `&sort_by=${encodeURIComponent(currentSortBy)}`;
+    }
+
+    if (currentOrderBy) {
+      url += `&order_by=${encodeURIComponent(currentOrderBy)}`;
     }
 
     const response = await fetch(url);
@@ -75,13 +118,17 @@ async function getMovies(page = 1, genre = "All Genres", rating = 0, searchText 
     allMovies = movies;
 
     totalPages = data?.data?.movie_count
-      ? Math.ceil(data.data.movie_count / limit)
+      ? Math.ceil(data.data.movie_count / currentLimit)
       : 1;
 
     displayMovies(movies);
     renderPagination();
 
-    if (!searchText && genre === "All Genres" && rating === 0) {
+    if (
+      !currentSearch &&
+      currentGenre === "All Genres" &&
+      currentRating === 0
+    ) {
       extractGenres(movies);
     }
     extractRating(movies);
@@ -89,8 +136,10 @@ async function getMovies(page = 1, genre = "All Genres", rating = 0, searchText 
     console.error("Error:", error);
     if (card) card.innerHTML = `<p class="text-white col-span-full text-center">Something went wrong loading movies. Please try again.</p>`;
   } finally {
+    isFetching = false;
     hideGridLoader();
     setSearchLoading(false);
+    setPaginationLoading(false);
   }
 }
 
@@ -141,7 +190,19 @@ function displayMovies(movies) {
 function filterMovies(searchText) {
   currentSearch = searchText;
   currentPage = 1;
-  getMovies(currentPage, currentGenre, currentRating, currentSearch);
+  getMovies();
+}
+
+function runSearch(sourceInput) {
+  const value = (sourceInput?.value || "").trim().toLowerCase();
+
+  const searchSmall = document.getElementById("searchInputSmall");
+  const searchLarge = document.getElementById("searchInputLarge");
+
+  if (searchSmall && searchSmall !== sourceInput) searchSmall.value = value;
+  if (searchLarge && searchLarge !== sourceInput) searchLarge.value = value;
+
+  filterMovies(value);
 }
 
 // ================= FILTERS =================
@@ -171,6 +232,7 @@ function extractRating(movies) {
 
 function renderGenres(genres) {
   if (!genreSelect) return;
+  if (genreSelect.options.length > 1) return;
 
   const options = ["All Genres", ...genres]
     .map((g) => `<option value="${g}">${g}</option>`)
@@ -196,8 +258,7 @@ function renderRating(ratings) {
 
 // ================= PAGINATION =================
 function renderPagination() {
-  const container = document.querySelector(".mt-xl.flex");
-  if (!container) return;
+  if (!paginationButtons) return;
 
   let buttons = "";
 
@@ -209,7 +270,7 @@ function renderPagination() {
     ) {
       buttons += `
         <button onclick="changePage(${i})"
-          class="flex h-10 w-10 items-center justify-center rounded-lg ${
+          class="w-10 h-10 flex items-center justify-center rounded-lg ${
             i === currentPage
               ? "bg-yellow-400 text-black font-bold"
               : "bg-gray-800 text-white hover:border-yellow-400 border"
@@ -222,12 +283,26 @@ function renderPagination() {
     }
   }
 
-  container.innerHTML = buttons;
+  paginationButtons.innerHTML = buttons;
+
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
 }
 
 function changePage(page) {
+  if (page === currentPage || page < 1 || page > totalPages) return;
   currentPage = page;
-  getMovies(currentPage, currentGenre, currentRating, currentSearch);
+  getMovies();
+}
+
+function goToPrevPage() {
+  if (currentPage <= 1) return;
+  changePage(currentPage - 1);
+}
+
+function goToNextPage() {
+  if (currentPage >= totalPages) return;
+  changePage(currentPage + 1);
 }
 
 // ================= DETAILS =================
@@ -388,30 +463,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchSmall = document.getElementById("searchInputSmall");
   const searchLarge = document.getElementById("searchInputLarge");
 
-  let debounceTimer;
-
-  function handleSearch(e) {
-    const value = e.target.value.toLowerCase();
-
-    clearTimeout(debounceTimer);
-
-    debounceTimer = setTimeout(() => {
-      if (searchSmall && searchSmall !== e.target) searchSmall.value = value;
-      if (searchLarge && searchLarge !== e.target) searchLarge.value = value;
-
-      filterMovies(value);
-    }, 300);
+  function handleEnterKey(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      runSearch(e.target);
+    }
   }
 
-  if (searchSmall) searchSmall.addEventListener("input", handleSearch);
-  if (searchLarge) searchLarge.addEventListener("input", handleSearch);
+  if (searchSmall) searchSmall.addEventListener("keydown", handleEnterKey);
+  if (searchLarge) searchLarge.addEventListener("keydown", handleEnterKey);
+
+  if (searchBtnSmall) {
+    searchBtnSmall.addEventListener("click", () => runSearch(searchSmall));
+  }
+  if (searchBtnLarge) {
+    searchBtnLarge.addEventListener("click", () => runSearch(searchLarge));
+  }
 
   // FILTERS
   if (genreSelect) {
     genreSelect.addEventListener("change", (e) => {
       currentGenre = e.target.value;
       currentPage = 1;
-      getMovies(currentPage, currentGenre, currentRating, currentSearch);
+      getMovies();
     });
   }
 
@@ -419,7 +493,43 @@ document.addEventListener("DOMContentLoaded", () => {
     ratingSelect.addEventListener("change", (e) => {
       currentRating = Number(e.target.value) || 0;
       currentPage = 1;
-      getMovies(currentPage, currentGenre, currentRating, currentSearch);
+      getMovies();
     });
   }
+
+  if (qualitySelect) {
+    qualitySelect.addEventListener("change", (e) => {
+      currentQuality = e.target.value;
+      currentPage = 1;
+      getMovies();
+    });
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+      currentSortBy = e.target.value;
+      currentPage = 1;
+      getMovies();
+    });
+  }
+
+  if (orderSelect) {
+    orderSelect.addEventListener("change", (e) => {
+      currentOrderBy = e.target.value;
+      currentPage = 1;
+      getMovies();
+    });
+  }
+
+  if (limitSelect) {
+    limitSelect.addEventListener("change", (e) => {
+      currentLimit = Number(e.target.value) || 20;
+      currentPage = 1;
+      getMovies();
+    });
+  }
+
+  // PAGINATION (prev / next)
+  if (prevBtn) prevBtn.addEventListener("click", goToPrevPage);
+  if (nextBtn) nextBtn.addEventListener("click", goToNextPage);
 });

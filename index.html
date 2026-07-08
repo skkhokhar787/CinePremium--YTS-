@@ -180,12 +180,27 @@
         </div>
         <div class="flex items-center gap-6">
             <div
-                class="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-1.5 focus-within:border-secondary transition-all">
-                <span id="searchSmallIcon" class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
-                <span id="searchSmallSpinner" class="hidden w-4 h-4 rounded-full border-2 border-secondary/30 border-t-secondary animate-spin"></span>
+                class="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full pl-4 pr-1.5 py-1.5 focus-within:border-secondary transition-all">
                 <input id="searchInputSmall"
                     class="bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder:text-on-surface-variant w-48"
                     placeholder="Search movies..." type="text">
+                <button id="searchBtnSmall" type="button" aria-label="Search"
+                    class="flex items-center justify-center w-7 h-7 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors ml-2 shrink-0">
+                    <span id="searchSmallIcon" class="material-symbols-outlined text-secondary text-sm">search</span>
+                    <span id="searchSmallSpinner" class="hidden w-5 h-3 text-secondary">
+                        <svg viewBox="10 40 180 120" class="w-full h-full">
+                            <circle fill="currentColor" r="15" cx="40" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                            </circle>
+                            <circle fill="currentColor" r="15" cx="100" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                            </circle>
+                            <circle fill="currentColor" r="15" cx="160" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                            </circle>
+                        </svg>
+                    </span>
+                </button>
             </div>
             <button
                 class="bg-tertiary text-primary-container px-6 py-2 rounded-lg font-button-text text-button-text hover:scale-105 transition-transform active:scale-95">Login</button>
@@ -196,27 +211,42 @@
     <section class="px-margin-mobile md:px-margin-desktop relative z-30 pt-xl">
         <div class="glass-card p-8 rounded-xl shadow-2xl border border-secondary/20">
             <!-- Large Search -->
-            <div class="relative mb-8 glow-border group">
-                <span id="searchLargeIcon"
-                    class="absolute left-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-2xl">search</span>
-                <span id="searchLargeSpinner"
-                    class="hidden absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></span>
+            <div
+                class="relative mb-8 glow-border group flex items-stretch overflow-hidden rounded-xl border-2 border-secondary/20 bg-surface-container-lowest/50 transition-all focus-within:border-secondary">
                 <input id="searchInputLarge"
-                    class="w-full bg-surface-container-lowest/50 border-2 border-secondary/20 rounded-xl py-5 pl-16 pr-6 text-xl focus:border-secondary outline-none transition-all placeholder:text-on-surface-variant/50"
+                    class="flex-1 min-w-0 border-none bg-transparent py-5 pl-6 pr-4 text-xl outline-none focus:ring-0 placeholder:text-on-surface-variant/50"
                     placeholder="Search for movies, series, or directors..." type="text">
+                <button id="searchBtnLarge" type="button" aria-label="Search"
+                    class="flex shrink-0 items-center justify-center gap-2 bg-secondary px-8 font-button-text text-button-text text-on-secondary-container transition-all hover:brightness-110 active:scale-95">
+                    <span id="searchLargeIcon" class="material-symbols-outlined text-2xl">search</span>
+                    <span id="searchLargeSpinner" class="hidden w-8 h-5">
+                        <svg viewBox="10 40 180 120" class="w-full h-full">
+                            <circle fill="currentColor" r="15" cx="40" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                            </circle>
+                            <circle fill="currentColor" r="15" cx="100" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                            </circle>
+                            <circle fill="currentColor" r="15" cx="160" cy="65">
+                                <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                            </circle>
+                        </svg>
+                    </span>
+                    <span class="hidden sm:inline">Search</span>
+                </button>
             </div>
             <!-- Filter Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <!-- <div class="space-y-2">
+                <div class="space-y-2">
                     <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Quality</label>
-                    <select
+                    <select id="qualitySelect"
                         class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
-                        <option>All Qualities</option>
-                        <option>4K Ultra HD</option>
-                        <option>1080p Bluray</option>
-                        <option>720p HD</option>
+                        <option value="">All Qualities</option>
+                        <option value="2160p">4K Ultra HD</option>
+                        <option value="1080p">1080p Bluray</option>
+                        <option value="720p">720p HD</option>
                     </select>
-                </div> -->
+                </div>
                 <div class="space-y-2">
                     <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Genre</label>
                     <select id="genreSelect"
@@ -234,33 +264,33 @@
                         <option value="7">7+ Good</option>
                     </select>
                 </div>
-                <!-- <div class="space-y-2">
+                <div class="space-y-2">
                     <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Sort</label>
-                    <select
+                    <select id="sortSelect"
                         class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
-                        <option>Latest Release</option>
-                        <option>Popularity</option>
-                        <option>Download Count</option>
-                        <option>Year</option>
+                        <option value="date_added">Latest Release</option>
+                        <option value="like_count">Popularity</option>
+                        <option value="download_count">Download Count</option>
+                        <option value="year">Year</option>
                     </select>
                 </div>
                 <div class="space-y-2">
                     <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Order</label>
-                    <select
+                    <select id="orderSelect"
                         class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
-                        <option>Descending</option>
-                        <option>Ascending</option>
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
                     </select>
                 </div>
                 <div class="space-y-2">
                     <label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Limit</label>
-                    <select
+                    <select id="limitSelect"
                         class="w-full bg-surface-container-low border border-secondary/20 rounded-lg p-3 text-sm focus:border-secondary focus:ring-0 outline-none cursor-pointer">
-                        <option>20 Results</option>
-                        <option>50 Results</option>
-                        <option>100 Results</option>
+                        <option value="20">20 Results</option>
+                        <option value="50">50 Results</option>
+                        <option value="100">100 Results</option>
                     </select>
-                </div> -->
+                </div>
             </div>
         </div>
     </section>
@@ -274,27 +304,44 @@
             <div id="movie_card" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-lg"></div>
             <div id="gridLoader"
                 class="hidden absolute inset-0 z-10 flex-col items-center justify-center gap-3 bg-surface-dim/70 backdrop-blur-sm rounded-xl">
-                <div class="w-12 h-12 rounded-full border-4 border-secondary/30 border-t-secondary animate-spin"></div>
+                <div class="w-16 h-10 text-secondary">
+                    <svg viewBox="10 40 180 120" class="w-full h-full">
+                        <circle fill="currentColor" r="15" cx="40" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="100" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                        </circle>
+                        <circle fill="currentColor" r="15" cx="160" cy="65">
+                            <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                        </circle>
+                    </svg>
+                </div>
                 <p class="text-on-surface-variant text-sm">Loading movies...</p>
             </div>
         </div>
         <!-- Pagination -->
-        <div class="mt-xl flex justify-center gap-4">
-            <button
-                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">1</button>
-            <button
-                class="w-10 h-10 flex items-center justify-center rounded-lg bg-secondary text-on-secondary-container font-bold">2</button>
-            <button
-                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">3</button>
-            <span class="flex items-center text-on-surface-variant px-2">...</span>
-            <button
-                class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high border border-secondary/20 text-on-surface hover:border-secondary transition-all">12</button>
+        <div class="mt-xl flex items-center justify-center gap-4">
+            <div id="paginationButtons" class="flex justify-center gap-4"></div>
+            <span id="paginationSpinner" class="hidden w-10 h-6 text-secondary">
+                <svg viewBox="10 40 180 120" class="w-full h-full">
+                    <circle fill="currentColor" r="15" cx="40" cy="65">
+                        <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.36"></animate>
+                    </circle>
+                    <circle fill="currentColor" r="15" cx="100" cy="65">
+                        <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.18"></animate>
+                    </circle>
+                    <circle fill="currentColor" r="15" cx="160" cy="65">
+                        <animate attributeName="cy" calcMode="spline" dur="0.9" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                    </circle>
+                </svg>
+            </span>
         </div>
         <div class="flex gap-2 justify-center mt-5">
-            <button id="prevBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+            <button id="prevBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                 <span class="material-symbols-outlined text-secondary">chevron_left</span>
             </button>
-            <button id="nextBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+            <button id="nextBtn" class="p-2 border border-white/10 rounded-lg hover:bg-white/5 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                 <span class="material-symbols-outlined text-secondary">chevron_right</span>
             </button>
         </div>
